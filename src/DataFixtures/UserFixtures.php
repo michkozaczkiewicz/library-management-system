@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
         $user->setName('admin');
         $user->setDateOfBirth(new \DateTime());
         $user->setPhone('admin');
+        $user->setGender('male');
         $user->setCity('admin');
         $manager->persist($user);
 
