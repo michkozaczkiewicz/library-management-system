@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
@@ -27,9 +27,10 @@ class UserFixtures extends Fixture
         $user->setRoles(array('ROLE_ADMIN'));
         $user->setName('admin');
         $user->setDateOfBirth(new \DateTime());
-        $user->setPhone('123456789');
+        $user->setPhone('admin');
         $user->setCity('admin');
         $manager->persist($user);
+
         $manager->flush();
     }
 }
