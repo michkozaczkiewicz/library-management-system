@@ -1,0 +1,179 @@
+<div class="wrapper">
+	<div class="top-navbar">
+		<div class="hamburger">
+			<div class="one"></div>
+			<div class="two"></div>
+			<div class="three"></div>
+		</div>
+		<div class="top-menu">
+			<div class="logo">
+				Library Management System
+			</div>
+			<ul>
+				{% if (is_granted('ROLE_LIBRARIAN')) or (is_granted('ROLE_USER')) %}
+					<li>
+						<a href="{{ path('editUser', {id: app.user.id}) }}">
+							<i class="fas fa-user"></i>
+						</a>
+
+					</li>
+				{% endif %}
+				{% if not app.user %}
+					<a href=" {{path('register')}} " class="btn btn-primary">Register</a>
+					<a href=" {{path('app_login')}} " class="btn btn-primary">Log in</a>
+				{% endif %}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<a href=" {{path('app_logout')}} " class="btn btn-primary">Log out</a>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+
+	<div class="sidebar">
+		{% if not app.user %}
+			<ul>
+				<li>
+					<a {% if route_name == "main" %} class="active" {% else %} class="" {% endif %} href="{{ path('main') }}">
+						<span class="icon">
+							<i class="fas fa-home"></i>
+						</span>
+						<span class="title">Home</span>
+					</a>
+				</li>
+			</ul>
+		{% elseif is_granted('ROLE_ADMIN') %}
+			<ul>
+				<li>
+					<a {% if route_name == "main" %} class="active" {% else %} class="" {% endif %} href="{{ path('main') }}">
+						<span class="icon">
+							<i class="fas fa-home"></i>
+						</span>
+						<span class="title">Home</span>
+					</a>
+				</li>
+				<li>
+					<a {% if route_name == "showLibrarians" %} class="active" {% else %} class="" {% endif %} href="{{ path('showLibrarians') }}">
+						<span class="icon">
+							<i class="fas fa-user-tie"></i>
+						</span>
+						<span class="title">Librarians</span>
+					</a>
+				</li>
+				<li>
+					<a {% if route_name == "showUsers" %} class="active" {% else %} class="" {% endif %} href="{{ path('showUsers') }}">
+						<span class="icon">
+							<i class="fas fa-user-tie"></i>
+						</span>
+						<span class="title">Users</span>
+					</a>
+				</li>
+				<li>
+					<a {% if route_name == "issue.createIssue" %} class="active" {% else %} class="" {% endif %} href="{{ path('issue.createIssue') }}">
+						<span class="icon">
+							<i class="fas fa-user-tie"></i>
+						</span>
+						<span class="title">Create Issue</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "author.index") or (route_name == "author.editAuthor") or (route_name == "author.createAuthor") %} class="active" {% else %} class="" {% endif %} href="{{ path('author.index') }}">
+						<span class="icon">
+							<i class="fas fa-users"></i>
+						</span>
+						<span class="title">Authors</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "genre.index") or (route_name == "genre.editGenre") or (route_name == "genre.createGenre") %} class="active" {% else %} class="" {% endif %} href="{{ path('genre.index') }}">
+						<span class="icon">
+							<i class="fas fa-theater-masks"></i>
+						</span>
+						<span class="title">Genres</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "publisher.index") or (route_name == "publisher.editGenre") or (route_name == "publisher.createGenre") %} class="active" {% else %} class="" {% endif %} href="{{ path('publisher.index') }}">
+						<span class="icon">
+							<i class="fas fa-user-edit"></i>
+						</span>
+						<span class="title">Publishers</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "book.index") or (route_name == "book.editGenre") or (route_name == "book.createGenre") %} class="active" {% else %} class="" {% endif %} href="{{ path('book.index') }}">
+						<span class="icon">
+							<i class="fas fa-book"></i>
+						</span>
+						<span class="title">Books</span>
+					</a>
+				</li>
+
+			</ul>
+		{% elseif is_granted('ROLE_LIBRARIAN') %}
+			<ul>
+				<li>
+					<a {% if route_name == "main" %} class="active" {% else %} class="" {% endif %} href="{{ path('main') }}">
+						<span class="icon">
+							<i class="fas fa-home"></i>
+						</span>
+						<span class="title">Home</span>
+					</a>
+				</li>
+				<li>
+					<a {% if route_name == "issue.createIssue" %} class="active" {% else %} class="" {% endif %} href="{{ path('issue.createIssue') }}">
+						<span class="icon">
+							<i class="fas fa-user-tie"></i>
+						</span>
+						<span class="title">Create Issue</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "showUsers") or (route_name == "issue.showUsersIssue") %} class="active" {% else %} class="" {% endif %} href="{{ path('showUsers') }}">
+						<span class="icon">
+							<i class="fas fa-user-tie"></i>
+						</span>
+						<span class="title">Users</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "author.index") or (route_name == "author.editAuthor") or (route_name == "author.createAuthor") %} class="active" {% else %} class="" {% endif %} href="{{ path('author.index') }}">
+						<span class="icon">
+							<i class="fas fa-users"></i>
+						</span>
+						<span class="title">Authors</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "genre.index") or (route_name == "genre.editGenre") or (route_name == "genre.createGenre") %} class="active" {% else %} class="" {% endif %} href="{{ path('genre.index') }}">
+						<span class="icon">
+							<i class="fas fa-theater-masks"></i>
+						</span>
+						<span class="title">Genres</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "publisher.index") or (route_name == "publisher.editGenre") or (route_name == "publisher.createGenre") %} class="active" {% else %} class="" {% endif %} href="{{ path('publisher.index') }}">
+						<span class="icon">
+							<i class="fas fa-user-edit"></i>
+						</span>
+						<span class="title">Publishers</span>
+					</a>
+				</li>
+				<li>
+					<a {% if (route_name == "book.index") or (route_name == "book.editGenre") or (route_name == "book.createGenre") %} class="active" {% else %} class="" {% endif %} href="{{ path('book.index') }}">
+						<span class="icon">
+							<i class="fas fa-book"></i>
+						</span>
+						<span class="title">Books</span>
+					</a>
+				</li>
+
+			</ul>
+		{% elseif is_granted('ROLE_USER') %}
+			<ul>
+				<li><a{% if route_name == "main" %} class="active"{% else %} class=""{% endif %}href="{{ path('main') }}"><span class="icon"><i class="fas fa-home"></i></span><span class="title">Home</span></a></li>
+				<li><a{% if route_name == "issue.showUsersIssue" %} class="active"{% else %} class=""{% endif %}href="{{ path('issue.showUsersIssue', {id: app.user.id}) }}"><span class="icon"><i class="fas fa-home"></i></span><span class="title">My issues</span></a></li>
+			</ul>
+		{% endif %}
+	</div>
+</div>

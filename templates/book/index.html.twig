@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books List
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('succes') %}
+		<div class="container alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+				<h1>List of all books</h1>
+			</div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('book.index') }}" class="btn btn-primary">Books List</a>
+					<a href="{{ path('book.createBook') }}" class="btn btn-primary">Create Book</a>
+				{% endif %}
+			</div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Id</td>
+								<td>Title</td>
+								<td>Isbn</td>
+								<td>Year of publication</td>
+								<td>Author</td>
+								<td>Genre</td>
+								<td>Publisher</td>
+								<td>Description</td>
+								<td>Quantity</td>
+								<td>Edit</td>
+								<td>Delete</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for book in books %}
+								<tr>
+									<td>{{book.id}}</td>
+									<td>{{book.title}}</td>
+									<td>{{book.isbn}}</td>
+									<td>{{book.year|date("d/m/Y")}}</td>
+									<td>{{book.author}}</td>
+									<td>{{book.genre}}</td>
+									<td>{{book.publisher}}</td>
+									<td>{{book.description}}</td>
+									<td>{{book.quantity}}</td>
+									<td>
+										<a href="{{ path('book.editBook', {id: book.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+									</td>
+									<td>
+										<a href="{{ path('book.deleteBook', {id: book.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+									</td>
+								</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				{% elseif is_granted('ROLE_LIBRARIAN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Title</td>
+								<td>Isbn</td>
+								<td>Year of publication</td>
+								<td>Author</td>
+								<td>Genre</td>
+								<td>Publisher</td>
+								<td>Description</td>
+								<td>Quantity</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for book in books %}
+								<tr>
+									<td>{{book.title}}</td>
+									<td>{{book.isbn}}</td>
+									<td>{{book.year|date("d/m/Y")}}</td>
+									<td>{{book.author}}</td>
+									<td>{{book.genre}}</td>
+									<td>{{book.publisher}}</td>
+									<td>{{book.description}}</td>
+									<td>{{book.quantity}}</td>
+								</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+			<div class="item">
+				{{ knp_pagination_render(books) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

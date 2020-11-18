@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users List
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('succes') %}
+		<div class="container alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+				<h1>List of all users</h1>
+			</div>
+			<div class="item">
+				<a href="{{ path('showLibrarians') }}" class="btn btn-primary">Librarian List</a>
+				<a href="{{ path('registerLibrarian') }}" class="btn btn-primary">Create librarian</a>
+			</div>
+			<div class="item">
+				<input class="form-control" id="myInput" type="text" placeholder="Search..">
+				<hr>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<td>Id</td>
+							<td>Name</td>
+							<td>Gender</td>
+							<td>Date of birth</td>
+							<td>Phone</td>
+							<td>City</td>
+						</tr>
+					</thead>
+					<tbody id="myTable">
+						{% for user in users %}
+							<tr>
+								<td>{{user.id}}</td>
+								<td>{{user.name}}</td>
+								<td>{{user.Gender}}</td>
+								<td>{{user.dateOfBirth|date("d/m/Y")}}</td>
+								<td>{{user.Phone}}</td>
+								<td>{{user.City}}</td>
+							</tr>
+						{% endfor %}
+
+					</tbody>
+				</table>
+			</div>
+			<div class="item">
+				{{ knp_pagination_render(users) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

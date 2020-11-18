@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Publishers List
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('succes') %}
+		<div class="container alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+				<h1>List of all publishers</h1>
+			</div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('publisher.index') }}" class="btn btn-primary">Publishers List</a>
+					<a href="{{ path('publisher.createPublisher') }}" class="btn btn-primary">Create Publisher</a>
+				{% endif %}
+			</div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Id</td>
+								<td>Publisher</td>
+								<td>Edit</td>
+								<td>Delete</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for publisher in publishers %}
+								<tr>
+									<td>{{publisher.id}}</td>
+									<td>{{publisher.name}}</td>
+									<td>
+										<a href="{{ path('publisher.editPublisher', {id: publisher.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+									</td>
+									<td>
+										<a href="{{ path('publisher.deletePublisher', {id: publisher.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+									</td>
+								</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				{% elseif is_granted('ROLE_LIBRARIAN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Publisher</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for publisher in publishers %}
+								<tr>
+									<td>{{publisher.name}}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+			<div class="item">
+				{{ knp_pagination_render(publishers) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

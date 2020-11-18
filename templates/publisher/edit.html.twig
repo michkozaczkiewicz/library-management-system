@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+
+				<h1>Edit an publisher</h1>
+			</div>
+			<div class="item">
+				<a href="{{ path('publisher.index') }}" class="btn btn-primary btn-lg">Publishers List</a>
+				<a href="{{ path('publisher.createPublisher') }}" class="btn btn-primary btn-lg">Create Publisher</a>
+			</div>
+			<div class="item">
+				{{ form_start(form) }}
+
+				<div class="container">
+					{{ form_row(form.name) }}
+					{{ form_row(form.save) }}
+				</div>
+
+				{{ form_end(form) }}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

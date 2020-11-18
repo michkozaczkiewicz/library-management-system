@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Issues List
+{% endblock %}
+
+{% block body %}
+
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+				<h1>Create an issue</h1>
+			</div>
+			<div class="item">
+				<a href="{{ path('issue.createIssue') }}" class="btn btn-primary">Create Issue</a>
+			</div>
+
+			<div class="item">
+				{{ form_start(form) }}
+
+				{{ form_row(form.user) }}
+				{{ form_row(form.book) }}
+				{{ form_end(form) }}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{# {% for choice in form.children.book.vars.choices %}
+									{% if choice.data.quantity > 0 %}{% endif %}
+								{% endfor %} #}
+{# {{dump(form)}}
+				{{dump(form.children.book.vars.choices)}}
+				{% for choice in form.children.book.vars.choices %}
+					{% if choice.data.quantity > 0 %}{% endif %}
+				{% endfor %} #}

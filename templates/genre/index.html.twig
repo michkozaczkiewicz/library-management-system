@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genres List
+{% endblock %}
+
+{% block body %}
+	{% for message in app.flashes('succes') %}
+		<div class="container alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+				<h1>List of all genres</h1>
+			</div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('genre.index') }}" class="btn btn-primary">Genres List</a>
+					<a href="{{ path('genre.createGenre') }}" class="btn btn-primary">Create Genre</a>
+				{% endif %}
+			</div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Id</td>
+								<td>Genre</td>
+								<td>Edit</td>
+								<td>Delete</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for genre in genres %}
+								<tr>
+									<td>{{genre.id}}</td>
+									<td>{{genre.genre}}</td>
+									<td>
+										<a href="{{ path('genre.editGenre', {id: genre.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+									</td>
+									<td>
+										<a href="{{ path('genre.deleteGenre', {id: genre.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+									</td>
+								</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				{% elseif is_granted('ROLE_LIBRARIAN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td>Genre</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for genre in genres %}
+								<tr>
+									<td>{{genre.genre}}</td>
+								</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+			<div class="item">
+				{{ knp_pagination_render(genres) }}
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}

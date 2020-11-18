@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+	<div class="wrapper">
+		<div class="main-container">
+			<div class="item">
+				<h1>Issues list</h1>
+			</div>
+			<div class="item"></div>
+			<div class="item">
+				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_LIBRARIAN') %}
+					<input class="form-control" id="myInput" type="text" placeholder="Search..">
+					<hr>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								{# <td>XD</td> #}
+								{% if is_granted('ROLE_ADMIN') %}
+									<td>Id</td>
+								{% endif %}
+								<td>User</td>
+								<td>Book</td>
+								<td>Date of Issue</td>
+								<td>Due date</td>
+								<td>Date of return</td>
+								<td>State of return</td>
+								<td>Return issue</td>
+							</tr>
+						</thead>
+						<tbody id="myTable">
+							{% for issue in issues %}
+								<tr>
+									{% if is_granted('ROLE_ADMIN') %}
+										<td>{{issue.id}}</td>
+									{% endif %}
+									<td>{{issue.user}}</td>
+									<td>{{issue.book}}</td>
+									<td>{{issue.dateOfIssue|date("d/m/Y")}}</td>
+									<td>{{issue.dueDate|date("d/m/Y")}}</td>
+									{% if issue.issueReturn == 'Pending' %}
+										<td>{{issue.dateOfReturn|date("--/--/----")}}</td>
+									{% else %}
+										<td>{{issue.dateOfReturn|date("d/m/Y")}}</td>
+									{% endif %}
+									<td>{{issue.issueReturn}}</td>
+									<td>
+										{% if issue.issueReturn == 'Pending' %}
+											<a href="{{ path('issue.returnIssue', {id: issue.id}) }}" class="btn btn-sm btn-warning">Return issue</a>
+										{% elseif issue.issueReturn == 'Late' %}
+											<span class="btn btn-sm btn-danger disabled">Returned late</span>
+										{% else %}
+											<span class="btn btn-sm btn-success disabled">Returned</span>
+										{% endif %}
+									</td>
+								</tr>
+							</td>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% elseif is_granted('ROLE_USER') %}
+				<input class="form-control" id="myInput" type="text" placeholder="Search..">
+				<hr>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<td>Book</td>
+							<td>Date of Issue</td>
+							<td>Due date</td>
+							<td>Date of return</td>
+							<td>State of return</td>
+							<td>Return issue</td>
+						</tr>
+					</thead>
+					<tbody id="myTable">
+						{% for issue in issues %}
+							<tr>
+								<td>{{issue.book}}</td>
+								<td>{{issue.dateOfIssue|date("d/m/Y")}}</td>
+								<td>{{issue.dueDate|date("d/m/Y")}}</td>
+								<td>{{issue.dateOfReturn|date("d/m/Y")}}</td>
+								<td>{{issue.issueReturn}}</td>
+								{# <td>
+																																																																																																																																																																																																																																																																																																	<a href="{{ path('issue.returnIssue', {id: issue.id}) }}" {% if issue.issueReturn == 'Pending' %} class="btn btn-sm btn-warning" {% elseif issue.issueReturn == 'Late' %} class="btn btn-sm btn-danger" {% else %} class="btn btn-sm btn-success disabled" {% endif %}>Return issue</a>
+																																																																																																																																																																																																																																																																																																</td> #}
+								<td>
+									{% if issue.issueReturn == 'Pending' %}
+										<span class="btn btn-sm btn-warning">Pending</span>
+									{% elseif issue.issueReturn == 'Late' %}
+										<span class="btn btn-sm btn-danger">Returned late</span>
+									{% else %}
+										<span class="btn btn-sm btn-success">Returned</span>
+									{% endif %}
+								</td>
+							</tr>
+						</td>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+	<div class="item">{{ knp_pagination_render(issues) }}</div>
+</div></div>{% endblock %}
