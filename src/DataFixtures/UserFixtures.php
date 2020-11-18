@@ -27,7 +27,7 @@ class UserFixtures extends Fixture
         $user->setRoles(array('ROLE_ADMIN'));
         $user->setName('admin');
         $user->setDateOfBirth(new \DateTime());
-        $user->setPhone('admin');
+        $user->setPhone('123456789');
         $user->setGender('male');
         $user->setCity('admin');
         $manager->persist($user);
