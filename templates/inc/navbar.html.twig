@@ -60,7 +60,7 @@
 					</a>
 				</li>
 				<li>
-					<a {% if route_name == "showUsers" %} class="active" {% else %} class="" {% endif %} href="{{ path('showUsers') }}">
+					<a {% if (route_name == "showUsers") or (route_name == "issue.showUsersIssue") %} class="active" {% else %} class="" {% endif %} href="{{ path('showUsers') }}">
 						<span class="icon">
 							<i class="fas fa-user-tie"></i>
 						</span>
